@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGeneratorInterface;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\RecordData;
@@ -63,6 +63,8 @@ class TypeInline1n extends AbstractFieldGenerator implements FieldGeneratorInter
      */
     public function generate(array $data)
     {
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
         $childTable = $data['fieldConfig']['config']['foreign_table'];
         // Insert an empty row again to have the uid already. This is useful for
         // possible further inline that may be attached to this child.
@@ -71,15 +73,14 @@ class TypeInline1n extends AbstractFieldGenerator implements FieldGeneratorInter
             'parentid' => $data['fieldValues']['uid'],
             'parenttable' => $data['tableName'],
         ];
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($childTable);
-        $connection->insert($childTable, $childFieldValues);
-        $childFieldValues['uid'] = (int)$connection->lastInsertId($childTable);
+        $connection->exec_INSERTquery($childTable, $childFieldValues);
+        $childFieldValues['uid'] = (int)$connection->sql_insert_id();
         $recordData = GeneralUtility::makeInstance(RecordData::class);
         $childFieldValues = $recordData->generate($childTable, $childFieldValues);
-        $connection->update(
+        $connection->exec_UPDATEquery(
             $childTable,
-            $childFieldValues,
-            [ 'uid' => $childFieldValues['uid'] ]
+            'uid = ' . $childFieldValues['uid'],
+            $childFieldValues
         );
         return (string)1;
     }

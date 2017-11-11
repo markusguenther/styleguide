@@ -17,8 +17,7 @@ namespace TYPO3\CMS\Styleguide\TcaDataGenerator;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Crypto\Random;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFolderException;
@@ -26,6 +25,7 @@ use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Saltedpasswords\Salt\SaltFactory;
 
 /**
@@ -218,6 +218,8 @@ class Generator
     protected function populateRowsOfThirdPartyTables()
     {
         $recordFinder = GeneralUtility::makeInstance(RecordFinder::class);
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
 
         $demoGroupUids = $recordFinder->findUidsOfDemoBeGroups();
         if (empty($demoGroupUids)) {
@@ -228,10 +230,9 @@ class Generator
                 'tx_styleguide_isdemorecord' => 1,
                 'title' => 'styleguide demo group 1',
             ];
-            $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('be_groups');
-            $connection->insert('be_groups', $fields);
+            $connection->exec_INSERTquery('be_groups', $fields);
             $fields['title'] = 'styleguide demo group 2';
-            $connection->insert('be_groups', $fields);
+            $connection->exec_INSERTquery('be_groups', $fields);
             $demoGroupUids = $recordFinder->findUidsOfDemoBeGroups();
 
             // If there were no groups, it is assumed (!) there are no users either. So they are just created.
@@ -252,13 +253,12 @@ class Generator
                 'usergroup' => implode(',', $demoGroupUids),
                 'password' => $saltedpassword->getHashedPassword($random->generateRandomBytes(10)),
             ];
-            $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('be_users');
-            $connection->insert('be_users', $fields);
+            $connection->exec_INSERTquery('be_users', $fields);
             $fields['admin'] = 1;
             $fields['username'] = 'styleguide demo user 2';
             $fields['usergroup'] = '';
             $fields['password'] = $saltedpassword->getHashedPassword($random->generateRandomBytes(10));
-            $connection->insert('be_users', $fields);
+            $connection->exec_INSERTquery('be_users', $fields);
         }
 
         $demoLanguagesUids = $recordFinder->findUidsOfDemoLanguages();
@@ -271,20 +271,19 @@ class Generator
                 'language_isocode' => 'da',
                 'flag' => 'dk',
             ];
-            $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('sys_language');
-            $connection->insert('sys_language', $fields);
+            $connection->exec_INSERTquery('sys_language', $fields);
             $fields['title'] = 'styleguide demo language 2';
             $fields['language_isocode'] = 'de';
             $fields['flag'] = 'de';
-            $connection->insert('sys_language', $fields);
+            $connection->exec_INSERTquery('sys_language', $fields);
             $fields['title'] = 'styleguide demo language 3';
             $fields['language_isocode'] = 'fr';
             $fields['flag'] = 'fr';
-            $connection->insert('sys_language', $fields);
+            $connection->exec_INSERTquery('sys_language', $fields);
             $fields['title'] = 'styleguide demo language 4';
             $fields['language_isocode'] = 'es';
             $fields['flag'] = 'es';
-            $connection->insert('sys_language', $fields);
+            $connection->exec_INSERTquery('sys_language', $fields);
         }
 
         // Add 3 files from resources directory to default storage
@@ -377,14 +376,15 @@ class Generator
      */
     protected function getUidOfLastTopLevelPage()
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $lastPage = $queryBuilder->select('uid')
-            ->from('pages')
-            ->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)))
-            ->orderBy('sorting', 'DESC')
-            ->execute()
-            ->fetchColumn(0);
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+
+        $whereClause = 'pid=0 AND ' . $pageRepository->enableFields('pages');
+        $row = $connection->exec_SELECTgetRows('uid', 'pages', $whereClause, '', 'sorting DESC');
+        $row = is_array($row) ? array_shift($row) : $row;
+        $lastPage = $row['uid'];
         $uid = 0;
         if (MathUtility::canBeInterpretedAsInteger($lastPage) && $lastPage > 0) {
             $uid = (int)$lastPage;

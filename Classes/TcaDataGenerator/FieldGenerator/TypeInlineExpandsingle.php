@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGeneratorInterface;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\RecordData;
@@ -61,8 +61,8 @@ class TypeInlineExpandsingle extends AbstractFieldGenerator implements FieldGene
      */
     public function generate(array $data)
     {
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-        $connection = $connectionPool->getConnectionForTable('tx_styleguide_inline_expandsingle_child');
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
         $childRowsToCreate = 3;
         for ($i = 0; $i < $childRowsToCreate; $i++) {
             // Insert an empty row again to have the uid already. This is useful for
@@ -72,17 +72,17 @@ class TypeInlineExpandsingle extends AbstractFieldGenerator implements FieldGene
                 'parentid' => $data['fieldValues']['uid'],
                 'parenttable' => $data['tableName'],
             ];
-            $connection->insert(
+            $connection->exec_INSERTquery(
                 'tx_styleguide_inline_expandsingle_child',
                 $childFieldValues
             );
-            $childFieldValues['uid'] = $connection->lastInsertId('tx_styleguide_inline_expandsingle_child');
+            $childFieldValues['uid'] = $connection->sql_insert_id();
             $recordData = GeneralUtility::makeInstance(RecordData::class);
             $childFieldValues = $recordData->generate('tx_styleguide_inline_expandsingle_child', $childFieldValues);
-            $connection->update(
+            $connection->exec_UPDATEquery(
                 'tx_styleguide_inline_expandsingle_child',
-                $childFieldValues,
-                [ 'uid' => $childFieldValues['uid'] ]
+                'uid = ' . $childFieldValues['uid'],
+                $childFieldValues
             );
         }
         return (string)$childRowsToCreate;

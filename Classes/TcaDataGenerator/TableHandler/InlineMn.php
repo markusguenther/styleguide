@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Styleguide\TcaDataGenerator\TableHandler;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\RecordData;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\RecordFinder;
@@ -37,8 +37,10 @@ class InlineMn extends AbstractTableHandler implements TableHandlerInterface
      * @param string $tableName
      * @return string
      */
-    public function handle(string $tableName)
+    public function handle($tableName)
     {
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
         $recordFinder = GeneralUtility::makeInstance(RecordFinder::class);
         $pidOfMainTable = $recordFinder->findPidOfMainTableRecord($tableName);
         $recordData = GeneralUtility::makeInstance(RecordData::class);
@@ -46,22 +48,20 @@ class InlineMn extends AbstractTableHandler implements TableHandlerInterface
         $childRelationUids = [];
         $numberOfChildRelationsToCreate = 2;
         $numberOfChildRows = 4;
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         for ($i = 0; $i < $numberOfChildRows; $i ++) {
             $fieldValues = [
                 'pid' => $pidOfMainTable,
             ];
-            $connection = $connectionPool->getConnectionForTable('tx_styleguide_inline_mn_child');
-            $connection->insert('tx_styleguide_inline_mn_child', $fieldValues);
-            $fieldValues['uid'] = $connection->lastInsertId('tx_styleguide_inline_mn_child');
+            $connection->exec_INSERTquery('tx_styleguide_inline_mn_child', $fieldValues);
+            $fieldValues['uid'] = $connection->sql_insert_id();
             if (count($childRelationUids) < $numberOfChildRelationsToCreate) {
                 $childRelationUids[] = $fieldValues['uid'];
             }
             $fieldValues = $recordData->generate('tx_styleguide_inline_mn_child', $fieldValues);
-            $connection->update(
+            $connection->exec_UPDATEquery(
                 'tx_styleguide_inline_mn_child',
-                $fieldValues,
-                [ 'uid' => (int)$fieldValues['uid'] ]
+                'uid = ' . (int)$fieldValues['uid'],
+                $fieldValues
             );
         }
 
@@ -69,14 +69,13 @@ class InlineMn extends AbstractTableHandler implements TableHandlerInterface
             'pid' => $pidOfMainTable,
             'inline_1' => $numberOfChildRelationsToCreate,
         ];
-        $connection = $connectionPool->getConnectionForTable($tableName);
-        $connection->insert($tableName, $fieldValues);
-        $parentid = $fieldValues['uid'] = $connection->lastInsertId($tableName);
+        $connection->exec_INSERTquery($tableName, $fieldValues);
+        $parentid = $fieldValues['uid'] = $connection->sql_insert_id();
         $fieldValues = $recordData->generate($tableName, $fieldValues);
-        $connection->update(
+        $connection->exec_UPDATEquery(
             $tableName,
-            $fieldValues,
-            [ 'uid' => (int)$fieldValues['uid'] ]
+            'uid = ' . (int)$fieldValues['uid'],
+            $fieldValues
         );
 
         $this->generateTranslatedRecords($tableName, $fieldValues);
@@ -87,8 +86,7 @@ class InlineMn extends AbstractTableHandler implements TableHandlerInterface
                 'parentid' => $parentid,
                 'childid' => $uid,
             ];
-            $connection = $connectionPool->getConnectionForTable('tx_styleguide_inline_mn_mm');
-            $connection->insert('tx_styleguide_inline_mn_mm', $mmFieldValues);
+            $connection->exec_INSERTquery('tx_styleguide_inline_mn_mm', $mmFieldValues);
         }
     }
 }

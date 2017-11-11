@@ -35,7 +35,7 @@ class AbstractTableHandler
      * @param string $tableName
      * @return bool
      */
-    public function match(string $tableName)
+    public function match($tableName)
     {
         return $tableName === $this->tableName;
     }
@@ -45,7 +45,7 @@ class AbstractTableHandler
      * @param $recordFinder
      * @param $fieldValues
      */
-    protected function generateTranslatedRecords(string $tableName, $fieldValues)
+    protected function generateTranslatedRecords($tableName, $fieldValues)
     {
         $recordFinder = GeneralUtility::makeInstance(RecordFinder::class);
         $demoLanguages = $recordFinder->findUidsOfDemoLanguages();

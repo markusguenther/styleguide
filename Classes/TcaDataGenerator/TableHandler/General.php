@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Styleguide\TcaDataGenerator\TableHandler;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\RecordData;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\RecordFinder;
@@ -32,7 +32,7 @@ class General extends AbstractTableHandler implements TableHandlerInterface
      * @param string $tableName
      * @return bool
      */
-    public function match(string $tableName)
+    public function match($tableName)
     {
         return true;
     }
@@ -43,7 +43,7 @@ class General extends AbstractTableHandler implements TableHandlerInterface
      * @param string $tableName
      * @return string
      */
-    public function handle(string $tableName)
+    public function handle($tableName)
     {
         $recordFinder = GeneralUtility::makeInstance(RecordFinder::class);
         $recordData = GeneralUtility::makeInstance(RecordData::class);
@@ -53,14 +53,15 @@ class General extends AbstractTableHandler implements TableHandlerInterface
         $fieldValues = [
             'pid' => $recordFinder->findPidOfMainTableRecord($tableName),
         ];
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($tableName);
-        $connection->insert($tableName, $fieldValues);
-        $fieldValues['uid'] = $connection->lastInsertId($tableName);
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection->exec_INSERTquery($tableName, $fieldValues);
+        $fieldValues['uid'] = $connection->sql_insert_id();
         $fieldValues = $recordData->generate($tableName, $fieldValues);
-        $connection->update(
+        $connection->exec_UPDATEquery(
             $tableName,
-            $fieldValues,
-            [ 'uid' => $fieldValues['uid'] ]
+            'uid = ' . $fieldValues['uid'],
+            $fieldValues
         );
 
         $this->generateTranslatedRecords($tableName, $fieldValues);

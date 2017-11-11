@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Styleguide\TcaDataGenerator\TableHandler;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\RecordData;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\RecordFinder;
@@ -37,9 +37,10 @@ class InlineMnSymmetric extends AbstractTableHandler implements TableHandlerInte
      * @param string $tableName
      * @return string
      */
-    public function handle(string $tableName)
+    public function handle($tableName)
     {
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
 
         $recordFinder = GeneralUtility::makeInstance(RecordFinder::class);
         $pidOfMainTable = $recordFinder->findPidOfMainTableRecord($tableName);
@@ -53,18 +54,17 @@ class InlineMnSymmetric extends AbstractTableHandler implements TableHandlerInte
             $fieldValues = [
                 'pid' => $pidOfMainTable,
             ];
-            $connection = $connectionPool->getConnectionForTable($tableName);
-            $connection->insert($tableName, $fieldValues);
-            $fieldValues['uid'] = $connection->lastInsertId($tableName);
+            $connection->exec_INSERTquery($tableName, $fieldValues);
+            $fieldValues['uid'] = $connection->sql_insert_id();
             if ($isFirst) {
                 $fieldValues['branches'] = $numberOfRelationsForFirstRecord;
                 $uidOfFirstRecord = $fieldValues['uid'];
             }
             $fieldValues = $recordData->generate($tableName, $fieldValues);
-            $connection->update(
+            $connection->exec_UPDATEquery(
                 $tableName,
-                $fieldValues,
-                [ 'uid' => $fieldValues['uid'] ]
+                'uid = ' . $fieldValues['uid'],
+                $fieldValues
             );
 
             $this->generateTranslatedRecords($tableName, $fieldValues);
@@ -82,8 +82,7 @@ class InlineMnSymmetric extends AbstractTableHandler implements TableHandlerInte
                 'hotelid' => $uidOfFirstRecord,
                 'branchid' => $uid,
             ];
-            $connection = $connectionPool->getConnectionForTable('tx_styleguide_inline_mnsymmetric_mm');
-            $connection->insert(
+            $connection->exec_INSERTquery(
                 'tx_styleguide_inline_mnsymmetric_mm',
                 $mmFieldValues
             );

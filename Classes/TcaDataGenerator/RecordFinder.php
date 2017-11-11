@@ -15,11 +15,11 @@ namespace TYPO3\CMS\Styleguide\TcaDataGenerator;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Class contains helper methods to locate uids or pids of specific records
@@ -36,22 +36,17 @@ class RecordFinder
      */
     public function findUidsOfStyleguideEntryPages()
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $rows = $queryBuilder->select('uid')
-            ->from('pages')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'pid',
-                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                ),
-                $queryBuilder->expr()->eq(
-                    'tx_styleguide_containsdemo',
-                    $queryBuilder->createNamedParameter('tx_styleguide', \PDO::PARAM_STR)
-                )
-            )
-            ->execute()
-            ->fetchAll();
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+
+        $whereConstraints = [
+            'pid=0',
+            'tx_styleguide_containsdemo=\'tx_styleguide\'',
+            $pageRepository->enableFields('pages')
+        ];
+        $rows = $connection->exec_SELECTgetRows('uid', 'pages', implode(' AND ', $whereConstraints));
         $uids = [];
         if (is_array($rows)) {
             foreach ($rows as $row) {
@@ -72,19 +67,13 @@ class RecordFinder
      */
     public function findPidOfMainTableRecord($tableName)
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $row = $queryBuilder->select('uid')
-            ->from('pages')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'tx_styleguide_containsdemo',
-                    $queryBuilder->createNamedParameter($tableName, \PDO::PARAM_STR)
-                )
-            )
-            ->orderBy('pid', 'DESC')
-            ->execute()
-            ->fetch();
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+
+        $whereClause = 'tx_styleguide_containsdemo=' . $tableName . ' AND ' . $pageRepository->enableFields('pages');
+        $row = $connection->exec_SELECTgetRows('uid', 'pages', $whereClause, '', 'pid DESC');
         if (count($row) !== 1) {
             throw new Exception(
                 'Found no page for main table ' . $tableName,
@@ -101,18 +90,14 @@ class RecordFinder
      */
     public function findUidsOfDemoLanguages()
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_language');
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $rows = $queryBuilder->select('uid')
-            ->from('sys_language')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'tx_styleguide_isdemorecord',
-                    $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
-            ->fetchAll();
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+
+        $whereClause = 'tx_styleguide_isdemorecord=1 AND ' . $pageRepository->enableFields('sys_language');
+        $rows = $connection->exec_SELECTgetRows('uid', 'sys_language', $whereClause);
+
         $result = [];
         if (is_array($rows)) {
             foreach ($rows as $row) {
@@ -129,18 +114,14 @@ class RecordFinder
      */
     public function findUidsOfDemoBeGroups()
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('be_groups');
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $rows = $queryBuilder->select('uid')
-            ->from('be_groups')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'tx_styleguide_isdemorecord',
-                    $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
-            ->fetchAll();
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+
+        $whereClause = 'tx_styleguide_isdemorecord=1 AND ' . $pageRepository->enableFields('be_groups');
+        $rows = $connection->exec_SELECTgetRows('uid', 'be_groups', $whereClause);
+
         $result = [];
         if (is_array($rows)) {
             foreach ($rows as $row) {
@@ -157,18 +138,14 @@ class RecordFinder
      */
     public function findUidsOfDemoBeUsers()
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('be_users');
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $rows = $queryBuilder->select('uid')
-            ->from('be_users')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'tx_styleguide_isdemorecord',
-                    $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
-            ->fetchAll();
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+
+        $whereClause = 'tx_styleguide_isdemorecord=1 AND ' . $pageRepository->enableFields('be_users');
+        $rows = $connection->exec_SELECTgetRows('uid', 'be_users', $whereClause);
+
         $result = [];
         if (is_array($rows)) {
             foreach ($rows as $row) {
@@ -186,18 +163,14 @@ class RecordFinder
     public function findUidsOfStaticdata()
     {
         $pageUid = $this->findPidOfMainTableRecord('tx_styleguide_staticdata');
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_styleguide_staticdata');
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $rows = $queryBuilder->select('uid')
-            ->from('tx_styleguide_staticdata')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'pid',
-                    $queryBuilder->createNamedParameter($pageUid, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
-            ->fetchAll();
+        /** @var DatabaseConnection $connection */
+        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+
+        $whereClause = 'pid=' . $pageUid . 'AND ' . $pageRepository->enableFields('tx_styleguide_staticdata');
+        $rows = $connection->exec_SELECTgetRows('uid', 'tx_styleguide_staticdata', $whereClause);
+
         $result = [];
         if (is_array($rows)) {
             foreach ($rows as $row) {
