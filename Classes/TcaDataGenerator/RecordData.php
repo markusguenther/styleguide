@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator;
 
 /*
@@ -30,7 +30,7 @@ class RecordData
      * @return array
      * @throws Exception
      */
-    public function generate(string $tableName, array $fieldValues): array
+    public function generate($tableName, array $fieldValues)
     {
         $tca = $GLOBALS['TCA'][$tableName];
         /** @var FieldGeneratorResolver $resolver */

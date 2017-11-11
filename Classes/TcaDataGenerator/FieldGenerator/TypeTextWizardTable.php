@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -40,7 +40,7 @@ class TypeTextWizardTable extends AbstractFieldGenerator implements FieldGenerat
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         return 'row1 col1|row1 col2'
             . LF . 'row2 col1|row3 col2'

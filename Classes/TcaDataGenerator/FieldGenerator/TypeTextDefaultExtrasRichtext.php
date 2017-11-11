@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -40,7 +40,7 @@ class TypeTextDefaultExtrasRichtext extends AbstractFieldGenerator implements Fi
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         return $this->kauderwelschService->getLoremIpsumHtml();
     }

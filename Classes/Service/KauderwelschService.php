@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\Service;
 
 /**
@@ -25,7 +25,7 @@ class KauderwelschService
      *
      * @return string
      */
-    public function getLoremIpsum(): string
+    public function getLoremIpsum()
     {
         return 'Bacon ipsum dolor sit strong amet capicola jerky pork chop rump shoulder shank. Shankle strip steak pig salami link.';
     }
@@ -35,7 +35,7 @@ class KauderwelschService
      *
      * @return string
      */
-    public function getLoremIpsumHtml(): string
+    public function getLoremIpsumHtml()
     {
         return 'Bacon ipsum dolor sit <strong>strong amet capicola</strong> jerky pork chop rump shoulder shank. Shankle strip <a href="#">steak pig salami link</a>. Leberkas shoulder ham hock cow salami bacon <em>em pork pork</em> chop, jerky pork belly drumstick ham. Tri-tip strip steak sirloin prosciutto pastrami. Corned beef venison tenderloin, biltong meatball pork tongue short ribs jowl cow hamburger strip steak. Doner turducken jerky short loin chuck filet mignon.';
     }
@@ -45,7 +45,7 @@ class KauderwelschService
      *
      * @return string
      */
-    public function getWord(): string
+    public function getWord()
     {
         return 'lipsum';
     }
@@ -55,7 +55,7 @@ class KauderwelschService
      *
      * @return int
      */
-    public function getInteger(): int
+    public function getInteger()
     {
         return 42;
     }
@@ -65,7 +65,7 @@ class KauderwelschService
      *
      * @return int
      */
-    public function getDateTimestamp(): int
+    public function getDateTimestamp()
     {
         // 1960-1-1 00:00:00 GMT
         return -315619200;
@@ -76,7 +76,7 @@ class KauderwelschService
      *
      * @return int
      */
-    public function getDatetimeTimestamp(): int
+    public function getDatetimeTimestamp()
     {
         // 1960-1-1 05:23:42 GMT
         return -315599778;
@@ -87,7 +87,7 @@ class KauderwelschService
      *
      * @return string
      */
-    public function getDateString(): string
+    public function getDateString()
     {
         // GMT
         return '1960-01-01';
@@ -98,7 +98,7 @@ class KauderwelschService
      *
      * @return string
      */
-    public function getDatetimeString(): string
+    public function getDatetimeString()
     {
         // GMT
         return '1960-01-01 05:42:23';
@@ -109,7 +109,7 @@ class KauderwelschService
      *
      * @return float
      */
-    public function getFloat(): float
+    public function getFloat()
     {
         return 5.23;
     }
@@ -119,7 +119,7 @@ class KauderwelschService
      *
      * @return string
      */
-    public function getLink(): string
+    public function getLink()
     {
         return 'https://typo3.org';
     }
@@ -129,7 +129,7 @@ class KauderwelschService
      *
      * @return string
      */
-    public function getHexColor(): string
+    public function getHexColor()
     {
         return '#FF8700';
     }

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator;
 
 /*
@@ -26,7 +26,7 @@ interface FieldGeneratorInterface {
      * @param array $data See RecordData generate() for details on this array
      * @return bool
      */
-    public function match(array $data): bool;
+    public function match(array $data);
 
     /**
      * Returns the generated value to be inserted into DB for this field
@@ -34,5 +34,5 @@ interface FieldGeneratorInterface {
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string;
+    public function generate(array $data);
 }

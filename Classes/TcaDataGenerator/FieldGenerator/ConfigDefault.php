@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -28,7 +28,7 @@ class ConfigDefault extends AbstractFieldGenerator implements FieldGeneratorInte
      * @param array $data
      * @return bool
      */
-    public function match(array $data): bool
+    public function match(array $data)
     {
         return (isset($data['fieldConfig']['config']['default'])) ? true : false;
     }
@@ -39,7 +39,7 @@ class ConfigDefault extends AbstractFieldGenerator implements FieldGeneratorInte
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         return (string)$data['fieldConfig']['config']['default'];
     }

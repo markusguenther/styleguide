@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -40,7 +40,7 @@ class TypeInputEvalDouble2 extends AbstractFieldGenerator implements FieldGenera
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         return (string)$this->kauderwelschService->getFloat();
     }

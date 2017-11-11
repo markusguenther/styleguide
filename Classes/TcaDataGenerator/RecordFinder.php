@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator;
 
 /*
@@ -34,7 +34,7 @@ class RecordFinder
      *
      * @return array
      */
-    public function findUidsOfStyleguideEntryPages(): array
+    public function findUidsOfStyleguideEntryPages()
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
@@ -70,7 +70,7 @@ class RecordFinder
      * @return int
      * @throws Exception
      */
-    public function findPidOfMainTableRecord(string $tableName): int
+    public function findPidOfMainTableRecord($tableName)
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
@@ -99,7 +99,7 @@ class RecordFinder
      *
      * @return array List of uids
      */
-    public function findUidsOfDemoLanguages(): array
+    public function findUidsOfDemoLanguages()
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_language');
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
@@ -127,7 +127,7 @@ class RecordFinder
      *
      * @return array List of uids
      */
-    public function findUidsOfDemoBeGroups(): array
+    public function findUidsOfDemoBeGroups()
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('be_groups');
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
@@ -155,7 +155,7 @@ class RecordFinder
      *
      * @return array List of uids
      */
-    public function findUidsOfDemoBeUsers(): array
+    public function findUidsOfDemoBeUsers()
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('be_users');
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
@@ -183,7 +183,7 @@ class RecordFinder
      *
      * @return array List of uids
      */
-    public function findUidsOfStaticdata(): array
+    public function findUidsOfStaticdata()
     {
         $pageUid = $this->findPidOfMainTableRecord('tx_styleguide_staticdata');
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_styleguide_staticdata');
@@ -212,7 +212,7 @@ class RecordFinder
      *
      * @return \TYPO3\CMS\Core\Resource\File[]
      */
-    public function findDemoFileObjects(): array
+    public function findDemoFileObjects()
     {
         /** @var StorageRepository $storageRepository */
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
@@ -227,7 +227,7 @@ class RecordFinder
      *
      * @return Folder
      */
-    public function findDemoFolderObject(): Folder
+    public function findDemoFolderObject()
     {
         /** @var StorageRepository $storageRepository */
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -39,7 +39,7 @@ class TypeInput extends AbstractFieldGenerator implements FieldGeneratorInterfac
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         return $this->kauderwelschService->getWord();
     }

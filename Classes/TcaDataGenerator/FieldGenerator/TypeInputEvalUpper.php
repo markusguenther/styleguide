@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -42,7 +42,7 @@ class TypeInputEvalUpper extends AbstractFieldGenerator implements FieldGenerato
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         return mb_strtoupper($this->kauderwelschService->getWord(), 'utf-8');
     }

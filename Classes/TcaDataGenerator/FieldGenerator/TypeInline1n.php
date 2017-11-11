@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -44,7 +44,7 @@ class TypeInline1n extends AbstractFieldGenerator implements FieldGeneratorInter
      * @param array $data
      * @return bool
      */
-    public function match(array $data): bool
+    public function match(array $data)
     {
         $result = $this->checkMatchArray($data, $this->matchArray);
         if ($result && isset($data['fieldConfig']['config']['foreign_table'])) {
@@ -61,7 +61,7 @@ class TypeInline1n extends AbstractFieldGenerator implements FieldGeneratorInter
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         $childTable = $data['fieldConfig']['config']['foreign_table'];
         // Insert an empty row again to have the uid already. This is useful for

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -23,7 +23,7 @@ use TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGeneratorInterface;
 class TypeInputForceL10nParent extends AbstractFieldGenerator implements FieldGeneratorInterface
 {
 
-    public function match(array $data): bool
+    public function match(array $data)
     {
         return $data['fieldName'] === 'l10n_parent';
     }
@@ -34,7 +34,7 @@ class TypeInputForceL10nParent extends AbstractFieldGenerator implements FieldGe
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         return '0';
     }

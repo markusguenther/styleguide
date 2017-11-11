@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -43,7 +43,7 @@ class TypeInputDynamicTextWithRecordUid extends AbstractFieldGenerator implement
      * @param array $data
      * @return bool
      */
-    public function match(array $data): bool
+    public function match(array $data)
     {
         $match = parent::match($data);
         if ($match) {
@@ -66,7 +66,7 @@ class TypeInputDynamicTextWithRecordUid extends AbstractFieldGenerator implement
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         return (string)($this->kauderwelschService->getWord() . $data['fieldValues']['uid']);
     }

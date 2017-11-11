@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator;
 
 /*
@@ -330,7 +330,7 @@ class Generator
      *
      * @return array
      */
-    protected function getListOfStyleguideMainTables(): array
+    protected function getListOfStyleguideMainTables()
     {
         $prefixes = [
             'tx_styleguide_',
@@ -375,7 +375,7 @@ class Generator
      *
      * @return int
      */
-    protected function getUidOfLastTopLevelPage(): int
+    protected function getUidOfLastTopLevelPage()
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));

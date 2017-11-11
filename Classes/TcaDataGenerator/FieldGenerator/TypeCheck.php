@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -39,7 +39,7 @@ class TypeCheck extends AbstractFieldGenerator implements FieldGeneratorInterfac
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         // Nothing checked by default
         $value = 0;

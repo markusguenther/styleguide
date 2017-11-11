@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\TableHandler;
 
 /*
@@ -35,7 +35,7 @@ class AbstractTableHandler
      * @param string $tableName
      * @return bool
      */
-    public function match(string $tableName): bool
+    public function match(string $tableName)
     {
         return $tableName === $this->tableName;
     }

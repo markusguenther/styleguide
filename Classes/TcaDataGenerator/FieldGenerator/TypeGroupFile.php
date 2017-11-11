@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -43,7 +43,7 @@ class TypeGroupFile extends AbstractFieldGenerator implements FieldGeneratorInte
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         // Just in case this dir does not exist yet
         GeneralUtility::mkdir(PATH_site . 'uploads/tx_styleguide');

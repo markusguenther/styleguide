@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -48,7 +48,7 @@ class TypeInlineExpandsingle extends AbstractFieldGenerator implements FieldGene
      * @param array $data
      * @return bool
      */
-    public function match(array $data): bool
+    public function match(array $data)
     {
         return $this->checkMatchArray($data, $this->matchArray);
     }
@@ -59,7 +59,7 @@ class TypeInlineExpandsingle extends AbstractFieldGenerator implements FieldGene
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $connection = $connectionPool->getConnectionForTable('tx_styleguide_inline_expandsingle_child');

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -49,7 +49,7 @@ class TypeInlineUsecombination extends AbstractFieldGenerator implements FieldGe
      * @param array $data
      * @return bool
      */
-    public function match(array $data): bool
+    public function match(array $data)
     {
         $match = parent::match($data);
         if ($match) {
@@ -68,7 +68,7 @@ class TypeInlineUsecombination extends AbstractFieldGenerator implements FieldGe
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         if (!isset($GLOBALS['TCA'][$data['fieldConfig']['config']['foreign_table']]['columns']['select_child']['config']['foreign_table'])) {
             throw new \RuntimeException(

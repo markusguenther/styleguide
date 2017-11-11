@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -48,7 +48,7 @@ class AbstractFieldGenerator
      * @param array $data Given data
      * @return bool
      */
-    public function match(array $data): bool
+    public function match(array $data)
     {
         return $this->checkMatchArray($data, $this->matchArray);
     }
@@ -60,7 +60,7 @@ class AbstractFieldGenerator
      * @param array $matchArray Part to mach against
      * @return bool
      */
-    protected function checkMatchArray(array $data, array $matchArray): bool
+    protected function checkMatchArray(array $data, array $matchArray)
     {
         $result = true;
         foreach ($matchArray as $name => $value) {

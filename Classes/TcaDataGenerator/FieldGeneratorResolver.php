@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator;
 
 /*
@@ -116,7 +116,7 @@ class FieldGeneratorResolver
      * @return FieldGeneratorInterface
      * @throws GeneratorNotFoundException|Exception
      */
-    public function resolve(array $data): FieldGeneratorInterface
+    public function resolve(array $data)
     {
         $generator = NULL;
         foreach ($this->fieldValueGenerators as $fieldValueGenerator) {

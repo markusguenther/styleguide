@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -46,7 +46,7 @@ class TypeSelectRenderTypeSingleForeignTable extends AbstractFieldGenerator impl
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         // Create 2 child rows in tx_styleguide_elements_select_single_12_foreign
         // and select the first one

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -47,7 +47,7 @@ class TypeInlineFal extends AbstractFieldGenerator implements FieldGeneratorInte
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         /** @var RecordFinder $recordFinder */
         $recordFinder = GeneralUtility::makeInstance(RecordFinder::class);

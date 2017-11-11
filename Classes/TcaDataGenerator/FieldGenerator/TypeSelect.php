@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace TYPO3\CMS\Styleguide\TcaDataGenerator\FieldGenerator;
 
 /*
@@ -42,7 +42,7 @@ class TypeSelect extends AbstractFieldGenerator implements FieldGeneratorInterfa
      * @param array $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(array $data)
     {
         $result = [];
         if (isset($data['fieldConfig']['config']['items']) && count($data['fieldConfig']['config']['items']) > 1) {
