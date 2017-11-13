@@ -381,7 +381,7 @@ class Generator
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
-        $whereClause = 'pid=0 AND ' . $pageRepository->enableFields('pages');
+        $whereClause = 'pid=0 ' . $pageRepository->enableFields('pages');
         $row = $connection->exec_SELECTgetRows('uid', 'pages', $whereClause, '', 'sorting DESC');
         $row = is_array($row) ? array_shift($row) : $row;
         $lastPage = $row['uid'];

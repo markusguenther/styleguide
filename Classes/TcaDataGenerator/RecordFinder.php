@@ -43,10 +43,10 @@ class RecordFinder
 
         $whereConstraints = [
             'pid=0',
-            'tx_styleguide_containsdemo=\'tx_styleguide\'',
-            $pageRepository->enableFields('pages')
+            'tx_styleguide_containsdemo="tx_styleguide"'
         ];
-        $rows = $connection->exec_SELECTgetRows('uid', 'pages', implode(' AND ', $whereConstraints));
+        $whereClause = implode(' AND ', $whereConstraints) . $pageRepository->enableFields('pages');
+        $rows = $connection->exec_SELECTgetRows('uid', 'pages', $whereClause);
         $uids = [];
         if (is_array($rows)) {
             foreach ($rows as $row) {
@@ -72,8 +72,11 @@ class RecordFinder
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
-        $whereClause = 'tx_styleguide_containsdemo=' . $tableName . ' AND ' . $pageRepository->enableFields('pages');
+        $whereClause = 'tx_styleguide_containsdemo="' . $tableName . '"' . $pageRepository->deleteClause('pages');
         $row = $connection->exec_SELECTgetRows('uid', 'pages', $whereClause, '', 'pid DESC');
+
+        // evil hack until langueg foo is adjusted
+        $row = array_shift($row);
         if (count($row) !== 1) {
             throw new Exception(
                 'Found no page for main table ' . $tableName,
@@ -95,7 +98,7 @@ class RecordFinder
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
-        $whereClause = 'tx_styleguide_isdemorecord=1 AND ' . $pageRepository->enableFields('sys_language');
+        $whereClause = 'tx_styleguide_isdemorecord=1 ' . $pageRepository->enableFields('sys_language');
         $rows = $connection->exec_SELECTgetRows('uid', 'sys_language', $whereClause);
 
         $result = [];
@@ -119,7 +122,7 @@ class RecordFinder
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
-        $whereClause = 'tx_styleguide_isdemorecord=1 AND ' . $pageRepository->enableFields('be_groups');
+        $whereClause = 'tx_styleguide_isdemorecord=1 ' . $pageRepository->enableFields('be_groups');
         $rows = $connection->exec_SELECTgetRows('uid', 'be_groups', $whereClause);
 
         $result = [];
@@ -143,7 +146,7 @@ class RecordFinder
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
-        $whereClause = 'tx_styleguide_isdemorecord=1 AND ' . $pageRepository->enableFields('be_users');
+        $whereClause = 'tx_styleguide_isdemorecord=1 ' . $pageRepository->enableFields('be_users');
         $rows = $connection->exec_SELECTgetRows('uid', 'be_users', $whereClause);
 
         $result = [];
@@ -168,7 +171,7 @@ class RecordFinder
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
-        $whereClause = 'pid=' . $pageUid . 'AND ' . $pageRepository->enableFields('tx_styleguide_staticdata');
+        $whereClause = 'pid=' . $pageUid . $pageRepository->enableFields('tx_styleguide_staticdata');
         $rows = $connection->exec_SELECTgetRows('uid', 'tx_styleguide_staticdata', $whereClause);
 
         $result = [];
