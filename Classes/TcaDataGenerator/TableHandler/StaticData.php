@@ -41,7 +41,7 @@ class StaticData extends AbstractTableHandler implements TableHandlerInterface
         /** @var RecordFinder $recordFinder */
         $recordFinder = GeneralUtility::makeInstance(RecordFinder::class);
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
 
         // tx_styleguide_staticdata is used in other TCA demo fields. We need some default
         // rows to later connect other fields to these rows.

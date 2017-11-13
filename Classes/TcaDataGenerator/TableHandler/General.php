@@ -54,7 +54,7 @@ class General extends AbstractTableHandler implements TableHandlerInterface
             'pid' => $recordFinder->findPidOfMainTableRecord($tableName),
         ];
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         $connection->exec_INSERTquery($tableName, $fieldValues);
         $fieldValues['uid'] = $connection->sql_insert_id();
         $fieldValues = $recordData->generate($tableName, $fieldValues);

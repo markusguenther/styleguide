@@ -37,7 +37,7 @@ class RecordFinder
     public function findUidsOfStyleguideEntryPages()
     {
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
@@ -68,7 +68,7 @@ class RecordFinder
     public function findPidOfMainTableRecord($tableName)
     {
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
@@ -91,7 +91,7 @@ class RecordFinder
     public function findUidsOfDemoLanguages()
     {
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
@@ -115,7 +115,7 @@ class RecordFinder
     public function findUidsOfDemoBeGroups()
     {
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
@@ -139,7 +139,7 @@ class RecordFinder
     public function findUidsOfDemoBeUsers()
     {
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
@@ -164,7 +164,7 @@ class RecordFinder
     {
         $pageUid = $this->findPidOfMainTableRecord('tx_styleguide_staticdata');
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 

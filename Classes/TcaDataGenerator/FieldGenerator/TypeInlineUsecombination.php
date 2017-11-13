@@ -77,7 +77,7 @@ class TypeInlineUsecombination extends AbstractFieldGenerator implements FieldGe
             );
         }
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         $childChildTableName = $GLOBALS['TCA'][$data['fieldConfig']['config']['foreign_table']]['columns']['select_child']['config']['foreign_table'];
         $numberOfChildChildRowsToCreate = 4;
         $uidsOfChildrenToConnect = [];

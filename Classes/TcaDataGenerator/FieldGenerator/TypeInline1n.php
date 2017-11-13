@@ -64,7 +64,7 @@ class TypeInline1n extends AbstractFieldGenerator implements FieldGeneratorInter
     public function generate(array $data)
     {
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         $childTable = $data['fieldConfig']['config']['foreign_table'];
         // Insert an empty row again to have the uid already. This is useful for
         // possible further inline that may be attached to this child.

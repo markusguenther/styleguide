@@ -51,7 +51,7 @@ class TypeSelectRenderTypeSingleForeignTable extends AbstractFieldGenerator impl
         // Create 2 child rows in tx_styleguide_elements_select_single_12_foreign
         // and select the first one
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
 
         // Just in case this dir does not exist yet
         GeneralUtility::mkdir(PATH_site . 'uploads/tx_styleguide');

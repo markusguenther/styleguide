@@ -40,7 +40,7 @@ class InlineMn extends AbstractTableHandler implements TableHandlerInterface
     public function handle($tableName)
     {
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         $recordFinder = GeneralUtility::makeInstance(RecordFinder::class);
         $pidOfMainTable = $recordFinder->findPidOfMainTableRecord($tableName);
         $recordData = GeneralUtility::makeInstance(RecordData::class);

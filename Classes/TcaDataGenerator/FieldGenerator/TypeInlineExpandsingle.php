@@ -62,7 +62,7 @@ class TypeInlineExpandsingle extends AbstractFieldGenerator implements FieldGene
     public function generate(array $data)
     {
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         $childRowsToCreate = 3;
         for ($i = 0; $i < $childRowsToCreate; $i++) {
             // Insert an empty row again to have the uid already. This is useful for

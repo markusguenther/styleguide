@@ -219,7 +219,7 @@ class Generator
     {
         $recordFinder = GeneralUtility::makeInstance(RecordFinder::class);
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
 
         $demoGroupUids = $recordFinder->findUidsOfDemoBeGroups();
         if (empty($demoGroupUids)) {
@@ -377,7 +377,7 @@ class Generator
     protected function getUidOfLastTopLevelPage()
     {
         /** @var DatabaseConnection $connection */
-        $connection = GeneralUtility::makeInstance(DatabaseConnection::class);
+        $connection = $GLOBALS['TYPO3_DB'];
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
