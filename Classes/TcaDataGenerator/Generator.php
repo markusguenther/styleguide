@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Styleguide\TcaDataGenerator;
  */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Crypto\Random;
+use TYPO3\CMS\Styleguide\Crypto\Random;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Resource\DuplicationBehavior;
