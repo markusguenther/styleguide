@@ -105,7 +105,7 @@ class FieldGeneratorResolver
         FieldGenerator\TypeInline1n::class,
 
         // General type=flex generator
-        FieldGenerator\TypeFlex::class,
+        //FieldGenerator\TypeFlex::class,
     ];
 
     /**
