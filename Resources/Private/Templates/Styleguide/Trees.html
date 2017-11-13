@@ -1,15 +1,8 @@
-{namespace sg = TYPO3\CMS\Styleguide\ViewHelpers}
-
-<f:layout name="Default"/>
-
-<f:section name="iconButtons">
-</f:section>
-
-<f:section name="headline">
-	<f:translate key="trees" />
-</f:section>
+{namespace sg=TYPO3\CMS\Styleguide\ViewHelpers}
+<f:layout name="Default" />
 
 <f:section name="content">
+	<h1><f:translate key="trees" /></h1>
 
 	<h2>Stand alone trees</h2>
 	<p>Structures and hierarchical content as trees.</p>
@@ -50,10 +43,9 @@
 		</ul>
 	</div>
 
-	<div class="example code">
-		<span class="tag-border">&lt;</span><span class="tag-name">ul</span> <span class="tag-attribute">class</span>=<span class="tag-attribute-value">"list-tree text-monospace"</span><span class="tag-border">&gt;</span><br />
-		&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag-border">&lt;</span><span class="tag-name">li</span><span class="tag-border">&gt;</span><span class="tag-border">&lt;/</span><span class="tag-name">li</span><span class="tag-border">&gt;</span><br />
-		<span class="tag-border">&lt;/</span><span class="tag-name">ul</span><span class="tag-border">&gt;</span><br />
-	</div>
-
+	<sg:code language="html" codeonly="true">
+		<ul class="list-tree text-monospace">
+			<li></li>
+		</ul>
+	</sg:code>
 </f:section>

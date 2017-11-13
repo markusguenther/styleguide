@@ -17,7 +17,7 @@ namespace TYPO3\CMS\Styleguide\Tests\Unit;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
- * Dummy test
+ * Test case
  */
 class DummyTest extends UnitTestCase
 {

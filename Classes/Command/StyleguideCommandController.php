@@ -1,4 +1,5 @@
 <?php
+
 namespace TYPO3\CMS\Styleguide\Command;
 
 /*
@@ -14,9 +15,8 @@ namespace TYPO3\CMS\Styleguide\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Core\Bootstrap;
-use TYPO3\CMS\Core\Core\ClassLoadingInformation;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
+use TYPO3\CMS\Styleguide\Service\KauderwelschService;
 
 /**
  * Styleguide commands
@@ -36,9 +36,9 @@ class StyleguideCommandController extends CommandController
      */
     public function KauderwelschCommand()
     {
-        /** @var $service \TYPO3\CMS\Styleguide\Service\KauderwelschService */
-        $service = $this->objectManager->get(\TYPO3\CMS\Styleguide\Service\KauderwelschService::class);
-        return $service->getLoremIpsum();
+        /** @var $service KauderwelschService */
+        $service = $this->objectManager->get(KauderwelschService::class);
+        return $service->getLoremIpsumHtml();
     }
 
 }

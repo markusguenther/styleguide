@@ -1,35 +1,29 @@
-{namespace sg = TYPO3\CMS\Styleguide\ViewHelpers}
+{namespace sg=TYPO3\CMS\Styleguide\ViewHelpers}
 
 <f:layout name="Default" />
 
-<f:section name="iconButtons">
-</f:section>
-
-<f:section name="headline">
-	<f:translate key="backendStyleguide" />
-</f:section>
-
 <f:section name="content">
-
+	<h1><f:translate key="backendStyleguide" /></h1>
 	<p class="lead">Presents supported styles for TYPO3 backend modules.</p>
-	<h2>Table of content</h2>
-
-	<ol>
-		<li><f:link.action action="typography">Typography</f:link.action></li>
-		<li><f:link.action action="tca">TCA demo record</f:link.action></li>
-		<li><f:link.action action="trees">Trees</f:link.action></li>
-		<li><f:link.action action="tab">Tab</f:link.action></li>
-		<li><f:link.action action="tables">Tables</f:link.action></li>
-		<li><f:link.action action="avatar">Avatar</f:link.action></li>
-		<li><f:link.action action="buttons">Buttons</f:link.action></li>
-		<li><f:link.action action="infobox">Infobox</f:link.action></li>
-		<li><f:link.action action="flashMessages">FlashMessages / Notification</f:link.action></li>
-		<li><f:link.action action="icons">Icons</f:link.action></li>
-		<li><f:link.action action="debug">Debug</f:link.action></li>
-		<li><f:link.action action="helpers">Helpers and legal</f:link.action></li>
-	</ol>
-
 	<p>This styleguide is work in progress. It is not part of and does not represent the official documentation, yet.<br />
 		Styleguide extension currently brings own css definitions that need to be integrated into TYPO3 CMS step by step.</p>
+
+	<h2>Styleguide examples</h2>
+
+	<ul class="fence list-unstyled">
+		<f:for each="{actions}" as="action">
+			<f:if condition="{action} != 'index'">
+				<li>
+					<f:link.action class="btn btn-default btn-block btn-lg" action="{action}">
+						<sg:initials text="{f:translate(key: '{action}')}"/>
+					</f:link.action>
+					<f:link.action action="{action}">
+						<f:translate key="{action}"/>
+					</f:link.action>
+				</li>
+			</f:if>
+		</f:for>
+
+	</ul>
 
 </f:section>

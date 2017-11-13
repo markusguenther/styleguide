@@ -1,16 +1,12 @@
-{namespace be = TYPO3\CMS\Backend\ViewHelpers}
+{namespace sg=TYPO3\CMS\Styleguide\ViewHelpers}
+{namespace b = TYPO3\CMS\Backend\ViewHelpers}
 
 <f:layout name="Default" />
 
-<f:section name="iconButtons">
-</f:section>
-
-<f:section name="headline">
-	<f:translate key="avatar" />
-</f:section>
-
 <f:section name="content">
-	<p clas="lead">Make the backend your backend and upload your personal profile picture.<br>
+	<h1><f:translate key="avatar" /></h1>
+
+	<p class="lead">Make the backend your backend and upload your personal profile picture.<br>
 		Backend users can change their profile pictures within setup module.</p>
 
 	<h2>Simple</h2>
@@ -20,7 +16,7 @@
 	<table class="table" style="width: auto;">
 		<tr>
 			<td>
-				<be:avatar />
+				<b:avatar />
 			</td>
 			<td>
 				<strong>{backendUser.username}</strong><br>
@@ -29,10 +25,9 @@
 		</tr>
 	</table>
 
-	<div class="example code">
-		&#123;namespace be = TYPO3\CMS\Backend\ViewHelpers&#125;<br>
-		<span class="tag-border">&lt;</span><span class="tag-name">be:avatar</span> /<span class="tag-border">&gt;</span>
-	</div>
+	<sg:code language="html" codeonly="true">
+		<b:avatar />
+	</sg:code>
 
 	<h2>Icon overlay and click menu</h2>
 
@@ -42,7 +37,7 @@
 	<table class="table" style="width: auto;">
 		<tr>
 			<td>
-				<be:avatar showIcon="true" />
+				<b:avatar showIcon="true" />
 			</td>
 			<td>
 				<strong>{backendUser.username}</strong><br>
@@ -51,9 +46,7 @@
 		</tr>
 	</table>
 
-	<div class="example code">
-		&#123;namespace be = TYPO3\CMS\Backend\ViewHelpers&#125;<br>
-		<span class="tag-border">&lt;</span><span class="tag-name">be:avatar</span> <span class="tag-attribute">showIcon</span>=<span class="tag-attribute-value">"true"</span> /<span class="tag-border">&gt;</span>
-	</div>
-
+	<sg:code language="html" codeonly="true">
+		<b:avatar showIcon="true" />
+	</sg:code>
 </f:section>

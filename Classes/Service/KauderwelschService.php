@@ -1,4 +1,5 @@
 <?php
+
 namespace TYPO3\CMS\Styleguide\Service;
 
 /**
@@ -20,12 +21,116 @@ namespace TYPO3\CMS\Styleguide\Service;
 class KauderwelschService
 {
     /**
-     * Lorem ipsum test with fixed length
+     * Lorem ipsum test with fixed length.
      *
      * @return string
      */
     public function getLoremIpsum()
     {
+        return 'Bacon ipsum dolor sit strong amet capicola jerky pork chop rump shoulder shank. Shankle strip steak pig salami link.';
+    }
+
+    /**
+     * Lorem ipsum test with fixed length and HTML in it.
+     *
+     * @return string
+     */
+    public function getLoremIpsumHtml()
+    {
         return 'Bacon ipsum dolor sit <strong>strong amet capicola</strong> jerky pork chop rump shoulder shank. Shankle strip <a href="#">steak pig salami link</a>. Leberkas shoulder ham hock cow salami bacon <em>em pork pork</em> chop, jerky pork belly drumstick ham. Tri-tip strip steak sirloin prosciutto pastrami. Corned beef venison tenderloin, biltong meatball pork tongue short ribs jowl cow hamburger strip steak. Doner turducken jerky short loin chuck filet mignon.';
+    }
+
+    /**
+     * Get a single word
+     *
+     * @return string
+     */
+    public function getWord()
+    {
+        return 'lipsum';
+    }
+
+    /**
+     * Get an integer
+     *
+     * @return int
+     */
+    public function getInteger()
+    {
+        return 42;
+    }
+
+    /**
+     * Timestamp of a day before 1970
+     *
+     * @return int
+     */
+    public function getDateTimestamp()
+    {
+        // 1960-1-1 00:00:00 GMT
+        return -315619200;
+    }
+
+    /**
+     * Timestamp of a day before 1970 with seconds
+     *
+     * @return int
+     */
+    public function getDatetimeTimestamp()
+    {
+        // 1960-1-1 05:23:42 GMT
+        return -315599778;
+    }
+
+    /**
+     * Date before 1970 as string
+     *
+     * @return string
+     */
+    public function getDateString()
+    {
+        // GMT
+        return '1960-01-01';
+    }
+
+    /**
+     * Date before 1970 with seconds as string
+     *
+     * @return string
+     */
+    public function getDatetimeString()
+    {
+        // GMT
+        return '1960-01-01 05:42:23';
+    }
+
+    /**
+     * Get a float
+     *
+     * @return float
+     */
+    public function getFloat()
+    {
+        return 5.23;
+    }
+
+    /**
+     * Get a link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return 'https://typo3.org';
+    }
+
+    /**
+     * Get a color as hex string
+     *
+     * @return string
+     */
+    public function getHexColor()
+    {
+        return '#FF8700';
     }
 }
